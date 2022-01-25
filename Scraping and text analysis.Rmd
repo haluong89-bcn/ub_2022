@@ -1,0 +1,83 @@
+---
+title: 'Introduction to R, scraping and text analysis'
+date: "10 & 17 February"
+output:
+  pdf_document:
+    keep_tex: yes
+    fig_caption: yes
+    latex_engine: pdflatex
+    template: Syllabus_template.tex
+  html_document:
+    df_print: paged
+geometry: margin=1in
+
+#Fill this in with any number of instructors. It uses a two column layout with a column break after each instructor.
+
+instructor:
+- name: Toni Rodon
+  email: toni.rodon@upf.edu
+  website: http://www.tonirodon.cat
+
+# You can include multiple entries for a teaching assistant by filling in all these options below. Currently this is set to populate two columns on the syllabus but there is not an even column break inserted.
+
+# teachingassistant:
+#  - name: Filler
+#    email: filler@fill.com
+#    officehours: W T
+#    office: OfficeNumber
+#    sections: '301'
+   
+classroom: To be determined
+classhours: 15:00-19:00
+fontfamily: mathpazo
+fontsize: 11pt
+header-includes: \linespread{1.05}
+
+---
+
+# Course description
+
+This course offers a (brief) introduction to R, web scraping and text analysis. This course is also designed to introduce you to and help you become familiar with tools of quantitative data analysis for the social sciences. 
+
+# Requirements
+
+There are no requirements. The only requisite is that you should be willing to have fun and learn new tools.
+
+# Why R?
+
+Because:
+
+- R is free
+- R is open source and has excellent package ecosystem 
+- R is very versatile
+- R is *very* good for data visualisation
+- R can accomodate more than one data frame in memory at the same time
+
+On the other hand:
+
+- R has a steep(er) learning curve
+
+# Structure of the course
+
+1.  R philosophy
+
+2. Introduction to R
+
+  + Importing and working with data
+  + Data wrangling
+  + Visualisation
+  + Basic statistical operations
+  
+3. Data from the web
+
+  + Web scraping
+  + Social media data
+  
+4. Text analysis
+
+  + Basic concepts
+  + Dictionary methods
+  + Topic models
+
+
+
