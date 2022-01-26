@@ -28,7 +28,7 @@ instructor:
 #    sections: '301'
    
 classroom: To be determined
-classhours: 15:00-19:00
+classhours: 16:00-20:00
 fontfamily: mathpazo
 fontsize: 11pt
 header-includes: \linespread{1.05}
