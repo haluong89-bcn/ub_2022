@@ -10,7 +10,7 @@
 
 rm(list = ls())
 
-setwd("/")
+#setwd("/")
 
 #Open election results and population data
 #install.packages("openxlsx")

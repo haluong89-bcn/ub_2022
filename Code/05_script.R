@@ -14,8 +14,6 @@ rm(list = ls())
 
 # Wikipedia -----------------------------------------------------------
 
-
-
 library("wikipediatrend")
 
 # Extraer datos
@@ -83,7 +81,7 @@ dfs2020 %>%
                            y = hits,
                            color = keyword)) +
   theme_minimal() +
-  labs(title = "Barcelona vs Girona - in 2020",
+  labs(title = "Barcelona vs Girona - 2020/2022",
        subtitle = "Google Trends Report",
        caption = "Courtesy: gtrendsR package")
 
