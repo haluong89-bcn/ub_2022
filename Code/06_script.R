@@ -11,7 +11,7 @@
 rm(list = ls())
 
 library("rvest")
-
+library("dplyr")
 
 # Scrape wikipedia --------------------------------------------------------
 
@@ -46,7 +46,7 @@ table <- table %>% as.data.frame()
 # Scraping abstract -----------------------------------------------------------
 
 
-jop <- "https://www.journals.uchicago.edu/doi/full/10.1086/706053"
+jop <- "https://doi.org/10.1086/706053"
 
 jop_page <- xml2::read_html(jop)
 
@@ -60,7 +60,7 @@ jop_title
 
 
 
-# Scraping ----------------------------------------------------------------
+# Scraping apsr ----------------------------------------------------------------
 
 
 apsr <- "https://www.cambridge.org/core/journals/american-political-science-review/latest-issue"
@@ -100,8 +100,6 @@ print(head(issue.df))
 
 #construct a function that returns the abstract article given an article URL.
 
-
-
 (read_html(issue.urls[1]) %>%
     html_nodes("p") %>%
     html_text())[3]
@@ -127,53 +125,60 @@ abstracts <- sapply(GetArticleURLs("https://www.cambridge.org/core/journals/amer
 df <- data.frame(abstracts)
 
 
-library("quanteda")
-corp <- corpus(abstracts, docvars = data.frame(abstracts = names(abstracts)))
+corpdf <- corpus(df, text_field = c("abstracts"))  
+summary(corpdf)
+corpdf[1]
+corpdf[[1]]
 
-print(corp)
-
-summary(corp)
-
-corp <- tokens(corp, remove_punct = TRUE)
-
-dfmat_corp <- dfm(corp)
+library("qdap")
+frequent_terms <- freq_terms(corpdf, 3)
+plot(frequent_terms)
 
 
-ndoc(dfmat_corp)
-nfeat(dfmat_corp)
+doc.tokens <- tokens(corpdf)
 
-head(docnames(dfmat_corp), 3)
-
-topfeatures(dfmat_corp, 10)
-
-
-toks <- tokens(abstracts)
-toks_nostop <- tokens_select(toks, pattern = stopwords("en"), selection = "remove")
+doc.tokens <- tokens_select(doc.tokens, stopwords('english'),selection='remove')
+doc.tokens <- tokens_wordstem(doc.tokens)
+doc.tokens <- tokens_tolower(doc.tokens)
+doc.dfm.final <- dfm(doc.tokens)
 
 
-toks <- tokens(abstracts, remove_punct = TRUE)
-toks_ngram <- tokens_ngrams(toks, n = 2:4)
-head(toks_ngram[[1]], 30)
+head(kwic(doc.tokens, "vote", window = 3))
+
+frequent_terms <- freq_terms(doc.tokens, 3)
+plot(frequent_terms)
 
 
 
-toks <- tokens(corp, remove_punct = TRUE, remove_url = T) %>% 
-  tokens_remove(c(stopwords("english")))
-dfmat <- dfm(toks)
 
-library("quanteda.textstats")
+# Scraping amazon ---------------------------------------------------------
 
-tstat_freq <- textstat_frequency(dfmat, n = 5)
-tstat_freq
 
-dfmat %>% 
-  textstat_frequency(n = 15) %>% 
-  ggplot(aes(x = reorder(feature, frequency), y = frequency)) +
-  geom_point() +
-  coord_flip() +
-  labs(x = NULL, y = "Frequency") +
-  theme_minimal()
+library("xml2") 
+library("rvest")
+library("stringr")
 
-library("quanteda.textplots")
-set.seed(132)
-textplot_wordcloud(dfmat, max_words = 10)
+url <- "https://www.amazon.es/s?k=r+data+science&__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&ref=nb_sb_noss_2"
+
+#Read content
+webpage <- read_html(url)
+
+
+#Let's get the titles
+css_product <- ".s-line-clamp-4" # CSS selector
+
+product_html <- html_nodes(webpage,css_product)
+product_html <- html_text(product_html)
+product_html
+
+product_html <- str_replace_all(product_html, "[\r\n\t]" , "")
+product_html
+
+product_html <- str_trim(product_html)
+product_html
+
+df <- data.frame(product_html)
+
+
+
+
